@@ -26,8 +26,9 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 	CallbackData *cbData = (CallbackData *)data;
 	cbData->len = argc;
 	cbData->rows = (char **)malloc(argc * sizeof(char *));
+	if (!cbData->rows) error("Unable to locate memory for rows");
 	cbData->cols = (char **)malloc(argc * sizeof(char *));
-
+	if (!cbData->cols) error("Unable to allocate memory for cols");
 	for (int i = 0; i < argc; i++) {
 		cbData->rows[i] = strdup(argv[i]);
 		cbData->cols[i] = strdup(azColName[i]);
@@ -57,12 +58,16 @@ char **extractFormData(char *buffer, char *name) {
 	char *data = (char *)malloc((length + 1) * sizeof(char));
 	if (data == NULL) {
 		free(name2);
-		free(data);
 		return NULL;
 	}
 	strncpy(data, startpos, length);
 	data[length] = '\0';
 	char **temp = (char **)malloc(sizeof(char *)*2);
+	if (temp == NULL) {
+		free(data);
+		free(name2);
+		return NULL;
+	}
 	temp[0] = name2;
 	temp[1] = data;
 	return temp;

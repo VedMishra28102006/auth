@@ -27,8 +27,9 @@ static int callback(void *data, int argc, char **argv, char **azColName) {
 	CallbackData *cbData = (CallbackData *)data;
 	cbData->len = argc;
 	cbData->rows = (char **)malloc(argc * sizeof(char *));
+	if (!cbData->rows) error("Unable to locate memory for rows");
 	cbData->cols = (char **)malloc(argc * sizeof(char *));
-
+	if (!cbData->cols) error("Unable to allocate memory for cols");
 	for (int i = 0; i < argc; i++) {
 		cbData->rows[i] = strdup(argv[i]);
 		cbData->cols[i] = strdup(azColName[i]);
