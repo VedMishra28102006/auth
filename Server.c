@@ -330,7 +330,7 @@ int main(int argc, char **argv) {
 					if (rc == SQLITE_OK) {
 						sprintf(response, "HTTP/1.1 200 OK\r\n\r\nUser updated successfully.");
 					} else {
-						sprintf(response, "HTTP/1.1 500 Internal Server Error\r\n\r\nFailed to delete user.");
+						sprintf(response, "HTTP/1.1 500 Internal Server Error\r\n\r\nFailed to update user.");
 					}
 				}
 			} else {
